@@ -45,7 +45,6 @@ public class Categoria implements Serializable {
     public String toString() {
         return nomeCategoria;
     }
-    
     public String getTamanho() {
         return tamanho;
     }
@@ -62,7 +61,3 @@ public class Categoria implements Serializable {
         this.embalagem = embalagem;
     }
 }
-
-
-
-
