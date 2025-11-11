@@ -207,27 +207,17 @@ public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JBRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBRegistrarActionPerformed
-        System.out.println("Botão Registrar clicado!");
 
-        String tipo = JRBEntrada.isSelected() ? "Entrada" : JRBSaida.isSelected() ? "Saída" : "";
-        if (tipo.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Selecione o tipo de movimentação.");
-            return;
-        }
 
-        registrarMovimentacao(tipo);
+        
     }//GEN-LAST:event_JBRegistrarActionPerformed
 
     private void JBLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBLimparActionPerformed
-        JTFQuantidade.setText("");
-        JRBEntrada.setSelected(false);
-        JRBSaida.setSelected(false);
-        JCBProduto.setSelectedIndex(0);
+        
     }//GEN-LAST:event_JBLimparActionPerformed
 
     private void JBSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBSairActionPerformed
-        this.dispose();
-        janelaAnterior.setVisible(true);
+        
     }//GEN-LAST:event_JBSairActionPerformed
 
     private void jScrollPane1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jScrollPane1AncestorAdded
