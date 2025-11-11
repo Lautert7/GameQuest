@@ -2,31 +2,40 @@
 package visao;
 
 import cliente.ClienteRMI;
+import service.EstoqueService;
 import javax.swing.JOptionPane;
 
 public class FrmTelaPrincipal extends javax.swing.JFrame {
 
+    private EstoqueService estoqueService;
     private ClienteRMI clienteRMI;
     
     public FrmTelaPrincipal() {
         initComponents();
-        clienteRMI = new ClienteRMI();
-        if (!clienteRMI.conectar()) {
-            JOptionPane.showMessageDialog(this, 
-                "Não foi possível conectar ao servidor RMI.\nVerifique se o servidor está rodando.",
-                "Erro de Conexão", 
-                JOptionPane.ERROR_MESSAGE);
-        }
+        conectarServidorRMI();
     }
     
     public FrmTelaPrincipal(ClienteRMI cliente) {
         initComponents();
         this.clienteRMI = cliente;
-        if (!clienteRMI.estaConectado() && !clienteRMI.conectar()) {
-            JOptionPane.showMessageDialog(this, 
-                "Não foi possível conectar ao servidor RMI.\nVerifique se o servidor está rodando.",
-                "Erro de Conexão", 
-                JOptionPane.ERROR_MESSAGE);
+        conectarServidorRMI();
+    }
+    
+    private void conectarServidorRMI() {
+        if (clienteRMI == null) {
+            clienteRMI = new ClienteRMI();
+        }
+        if (clienteRMI.conectar()) {
+            try {
+                estoqueService = clienteRMI.getService();
+                JOptionPane.showMessageDialog(this, "✅ Conectado ao servidor RMI com sucesso!");
+            } catch (Exception e) {
+                estoqueService = null;
+                JOptionPane.showMessageDialog(this, "❌ Não foi possível conectar ao servidor RMI. Verifique se o servidor está ativo.");
+            }
+        } else {
+            estoqueService = null;
+            JOptionPane.showMessageDialog(this, "❌ Não foi possível conectar ao servidor RMI. Verifique se o servidor está ativo.");
         }
     }
 
@@ -129,32 +138,49 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JBSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBSairActionPerformed
-        if (clienteRMI != null) {
-            clienteRMI.desconectar();
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Sair", JOptionPane.YES_NO_OPTION);
+        if (resposta == JOptionPane.YES_OPTION) {
+            if (clienteRMI != null) {
+                clienteRMI.desconectar();
+            }
+            System.exit(0);
         }
-        System.exit(0);
     }//GEN-LAST:event_JBSairActionPerformed
 
     private void JBMovimentacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBMovimentacaoActionPerformed
-        JOptionPane.showMessageDialog(this, "Funcionalidade de movimentação ainda não implementada.");
+        if (estoqueService != null) {
+            FrmMovimentacaoDeEstoque frm = new FrmMovimentacaoDeEstoque(estoqueService);
+            frm.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Servidor não conectado!");
+        }
     }//GEN-LAST:event_JBMovimentacaoActionPerformed
 
     private void JBProdutos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBProdutos1ActionPerformed
-        FrmListadeProduto listaProdutos = new FrmListadeProduto(clienteRMI, this);
-        listaProdutos.setVisible(true);
-        this.setVisible(false);
+        if (estoqueService != null) {
+            FrmListadeProduto frm = new FrmListadeProduto(estoqueService);
+            frm.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Servidor não conectado!");
+        }
     }//GEN-LAST:event_JBProdutos1ActionPerformed
 
     private void JBRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {
-        FrmRelatorio relatorio = new FrmRelatorio(clienteRMI, this);
-        relatorio.setVisible(true);
-        this.setVisible(false);
+        if (estoqueService != null) {
+            FrmRelatorio frm = new FrmRelatorio(estoqueService);
+            frm.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Servidor não conectado!");
+        }
     }
 
     private void JBCategoriasActionPerformed(java.awt.event.ActionEvent evt) {
-        FrmListadeCategoria listaCategorias = new FrmListadeCategoria(clienteRMI, this);
-        listaCategorias.setVisible(true);
-        this.setVisible(false);
+        if (estoqueService != null) {
+            FrmListadeCategoria frm = new FrmListadeCategoria(estoqueService);
+            frm.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Servidor não conectado!");
+        }
     }
 
     /**
