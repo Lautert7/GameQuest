@@ -10,16 +10,26 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- *
- * @author eugus
+ * Tela para listagem e gerenciamento de produtos no sistema de controle de estoque.
+ * Permite visualizar, buscar, cadastrar, editar e excluir produtos.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
  */
 public class FrmListadeProduto extends javax.swing.JFrame {
 
+    /**
+     * Cliente RMI para comunicação com o servidor.
+     */
     private ClienteRMI clienteRMI;
+    
+    /**
+     * Referência à janela anterior para retorno.
+     */
     private javax.swing.JFrame janelaAnterior;
     
     /**
-     * Creates new form FrmListadeProduto
+     * Construtor padrão que inicializa a tela e cria uma nova conexão RMI.
      */
     public FrmListadeProduto() {
         initComponents();
@@ -35,6 +45,12 @@ public class FrmListadeProduto extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Construtor que recebe cliente RMI e janela anterior.
+     * 
+     * @param cliente Cliente RMI para comunicação com o servidor
+     * @param anterior Janela anterior para retorno
+     */
     public FrmListadeProduto(ClienteRMI cliente, javax.swing.JFrame anterior) {
         initComponents();
         this.clienteRMI = cliente;
@@ -50,6 +66,9 @@ public class FrmListadeProduto extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Carrega as categorias do servidor e popula o combo box de filtro.
+     */
     private void carregarCategorias() {
         try {
             EstoqueService service = clienteRMI.getService();
@@ -65,6 +84,9 @@ public class FrmListadeProduto extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Carrega a lista de produtos do servidor e exibe na tabela.
+     */
     public void carregarTabelaProdutos() {
         try {
             EstoqueService service = clienteRMI.getService();

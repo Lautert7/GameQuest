@@ -9,14 +9,32 @@ import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Tela para registro e visualização de movimentações de estoque (entradas e saídas).
+ * Permite registrar novas movimentações e visualizar o histórico de movimentações.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
+ */
 public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
 
+    /**
+     * Serviço remoto de estoque para comunicação com o servidor RMI.
+     */
     private EstoqueService estoqueService;
     
+    /**
+     * Construtor padrão que inicializa apenas os componentes da interface.
+     */
     public FrmMovimentacaoDeEstoque() {
         initComponents();
     }
     
+    /**
+     * Construtor que recebe o serviço de estoque e carrega os dados iniciais.
+     * 
+     * @param estoqueService Serviço remoto de estoque
+     */
     public FrmMovimentacaoDeEstoque(EstoqueService estoqueService) {
         this.estoqueService = estoqueService;
         initComponents();
@@ -24,6 +42,9 @@ public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
         carregarMovimentacoes();
     }
     
+    /**
+     * Carrega a lista de produtos do servidor e popula o combo box de produtos.
+     */
     private void carregarProdutos() {
         if (estoqueService == null) {
             JOptionPane.showMessageDialog(this, "Servidor não conectado!");
@@ -41,6 +62,9 @@ public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Carrega o histórico de movimentações do servidor e exibe na tabela.
+     */
     private void carregarMovimentacoes() {
         if (estoqueService == null) {
             JOptionPane.showMessageDialog(this, "Servidor não conectado!");
@@ -263,6 +287,13 @@ public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
         pack();
     }
 
+    /**
+     * Trata o evento de clique no botão Registrar.
+     * Valida os dados informados e registra uma nova movimentação no servidor.
+     * Atualiza a quantidade do produto e recarrega a lista de movimentações.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBRegistrarActionPerformed(java.awt.event.ActionEvent evt) {
         if (estoqueService == null) {
             JOptionPane.showMessageDialog(this, "Servidor não conectado!");
@@ -325,6 +356,12 @@ public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Trata o evento de clique no botão Limpar.
+     * Limpa todos os campos do formulário de movimentação.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBLimparActionPerformed(java.awt.event.ActionEvent evt) {
         JCBProduto.setSelectedIndex(-1);
         JTFQuantidade.setText("");
@@ -333,6 +370,12 @@ public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
         JRBSaida.setSelected(false);
     }
 
+    /**
+     * Trata o evento de clique no botão Sair.
+     * Fecha a janela de movimentação.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBSairActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
     }

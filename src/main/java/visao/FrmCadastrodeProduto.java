@@ -16,17 +16,32 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author eugus
+ * Tela para cadastro e edição de produtos no sistema de controle de estoque.
+ * Permite criar novos produtos ou editar produtos existentes, validando
+ * os dados informados antes de salvar no servidor.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
  */
 public class FrmCadastrodeProduto extends javax.swing.JFrame {
 
+    /**
+     * Cliente RMI para comunicação com o servidor.
+     */
     private ClienteRMI clienteRMI;
+    
+    /**
+     * Referência à tela anterior para retorno após salvar ou cancelar.
+     */
     private javax.swing.JFrame telaAnterior;
+    
+    /**
+     * Produto em edição, null se for um novo cadastro.
+     */
     private Produto produtoEmEdicao;
     
     /**
-     * Creates new form FrmCadastrodeProduto
+     * Construtor padrão que inicializa a tela e cria uma nova conexão RMI.
      */
     public FrmCadastrodeProduto() {
         initComponents();
@@ -41,6 +56,13 @@ public class FrmCadastrodeProduto extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Construtor que recebe cliente RMI, tela anterior e produto para edição.
+     * 
+     * @param cliente Cliente RMI para comunicação com o servidor
+     * @param anterior Tela anterior para retorno após salvar ou cancelar
+     * @param produto Produto a ser editado, ou null para novo cadastro
+     */
     public FrmCadastrodeProduto(ClienteRMI cliente, javax.swing.JFrame anterior, Produto produto) {
         initComponents();
         this.clienteRMI = cliente;
@@ -60,6 +82,10 @@ public class FrmCadastrodeProduto extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Carrega as categorias do servidor e popula o combo box.
+     * Se não houver categorias, usa categorias padrão.
+     */
     private void carregarCategorias() {
         try {
             EstoqueService service = clienteRMI.getService();
@@ -81,6 +107,11 @@ public class FrmCadastrodeProduto extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Preenche os campos do formulário com os dados do produto.
+     * 
+     * @param produto Produto com os dados a serem exibidos
+     */
     private void preencherCampos(Produto produto) {
         JTFNome.setText(produto.getNome());
         JTFPreco.setText(String.valueOf(produto.getPreco()));
@@ -238,6 +269,12 @@ public class FrmCadastrodeProduto extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Trata o evento de clique no botão Salvar.
+     * Valida os dados informados e salva o produto no servidor (cria novo ou atualiza existente).
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBSalvarActionPerformed(java.awt.event.ActionEvent evt) {
         if (JTFNome.getText().isEmpty()
             || JTFUnidade.getText().isEmpty()
@@ -323,6 +360,12 @@ public class FrmCadastrodeProduto extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Trata o evento de clique no botão Cancelar.
+     * Retorna para a tela anterior e fecha a janela de cadastro.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBCancelarActionPerformed(java.awt.event.ActionEvent evt) {
         if (telaAnterior != null) {
             telaAnterior.setVisible(true);

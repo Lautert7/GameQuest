@@ -4,17 +4,40 @@ import cliente.ClienteRMI;
 import service.EstoqueService;
 import javax.swing.JOptionPane;
 
+/**
+ * Tela principal do sistema de controle de estoque.
+ * Fornece acesso às funcionalidades principais: produtos, categorias,
+ * movimentações e relatórios através de botões de navegação.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
+ */
 public class FrmTelaPrincipal extends javax.swing.JFrame {
 
+    /**
+     * Serviço remoto de estoque para comunicação com o servidor RMI.
+     */
     private EstoqueService estoqueService;
+    
+    /**
+     * Cliente RMI para gerenciar a conexão com o servidor.
+     */
     private ClienteRMI clienteRMI;
     
+    /**
+     * Construtor padrão que inicializa a tela e cria uma nova conexão RMI.
+     */
     public FrmTelaPrincipal() {
         initComponents();
         this.clienteRMI = new ClienteRMI();
         conectarServidorRMI();
     }
     
+    /**
+     * Construtor que recebe um cliente RMI já configurado.
+     * 
+     * @param clienteRMI Cliente RMI para comunicação com o servidor
+     */
     public FrmTelaPrincipal(ClienteRMI clienteRMI) {
         initComponents();
         this.clienteRMI = clienteRMI;
@@ -25,6 +48,10 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Estabelece conexão com o servidor RMI.
+     * Cria um novo cliente se necessário e obtém o serviço remoto.
+     */
     private void conectarServidorRMI() {
         if (clienteRMI == null) {
             clienteRMI = new ClienteRMI();
@@ -134,6 +161,12 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Trata o evento de clique no botão Sair.
+     * Solicita confirmação do usuário antes de encerrar a aplicação.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBSairActionPerformed
         int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Sair", JOptionPane.YES_NO_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
@@ -144,6 +177,12 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_JBSairActionPerformed
 
+    /**
+     * Trata o evento de clique no botão Movimentação de Estoque.
+     * Abre a tela de movimentação se o servidor estiver conectado.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBMovimentacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBMovimentacaoActionPerformed
         if (estoqueService != null) {
             FrmMovimentacaoDeEstoque frm = new FrmMovimentacaoDeEstoque(estoqueService);
@@ -153,6 +192,12 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_JBMovimentacaoActionPerformed
 
+    /**
+     * Trata o evento de clique no botão Produtos.
+     * Abre a tela de listagem de produtos se o servidor estiver conectado.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBProdutos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBProdutos1ActionPerformed
         if (clienteRMI != null && clienteRMI.estaConectado()) {
             FrmListadeProduto frm = new FrmListadeProduto(clienteRMI, this);
@@ -162,6 +207,12 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_JBProdutos1ActionPerformed
 
+    /**
+     * Trata o evento de clique no botão Relatórios.
+     * Abre a tela de relatórios se o servidor estiver conectado.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {
         if (estoqueService != null) {
             FrmRelatorio frm = new FrmRelatorio(estoqueService);
@@ -171,6 +222,12 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Trata o evento de clique no botão Categorias.
+     * Abre a tela de listagem de categorias se o servidor estiver conectado.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBCategoriasActionPerformed(java.awt.event.ActionEvent evt) {
         if (estoqueService != null) {
             FrmListadeCategoria frm = new FrmListadeCategoria(estoqueService);

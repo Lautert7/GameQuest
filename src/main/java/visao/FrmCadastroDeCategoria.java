@@ -11,17 +11,31 @@ import javax.swing.JOptionPane;
 import java.rmi.RemoteException;
 
 /**
- *
- * @author eugus
+ * Tela para cadastro e edição de categorias no sistema de controle de estoque.
+ * Permite criar novas categorias ou editar categorias existentes.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
  */
 public class FrmCadastroDeCategoria extends javax.swing.JFrame {
 
+    /**
+     * Cliente RMI para comunicação com o servidor.
+     */
     private ClienteRMI clienteRMI;
+    
+    /**
+     * Referência à janela anterior para retorno após salvar ou cancelar.
+     */
     private javax.swing.JFrame janelaAnterior;
+    
+    /**
+     * ID da categoria em edição, 0 se for um novo cadastro.
+     */
     private int idCategoria;
     
     /**
-     * Creates new form FrmCadastroDeCategoria
+     * Construtor padrão que inicializa a tela e cria uma nova conexão RMI.
      */
     public FrmCadastroDeCategoria() {
         initComponents();
@@ -35,6 +49,11 @@ public class FrmCadastroDeCategoria extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Construtor que recebe a janela anterior para novo cadastro.
+     * 
+     * @param anterior Janela anterior para retorno após salvar ou cancelar
+     */
     public FrmCadastroDeCategoria(javax.swing.JFrame anterior) {
         initComponents();
         clienteRMI = new ClienteRMI();
@@ -48,6 +67,12 @@ public class FrmCadastroDeCategoria extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Construtor que recebe a janela anterior e categoria para edição.
+     * 
+     * @param anterior Janela anterior para retorno após salvar ou cancelar
+     * @param categoria Categoria a ser editada
+     */
     public FrmCadastroDeCategoria(javax.swing.JFrame anterior, Categoria categoria) {
         initComponents();
         clienteRMI = new ClienteRMI();
@@ -63,6 +88,11 @@ public class FrmCadastroDeCategoria extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Preenche os campos do formulário com os dados da categoria.
+     * 
+     * @param categoria Categoria com os dados a serem exibidos
+     */
     private void preencherCampos(Categoria categoria) {
         JTFNomeCategoria.setText(categoria.getNomeCategoria());
         JCBTamanho.setSelectedItem(categoria.getTamanho());

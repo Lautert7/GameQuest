@@ -15,16 +15,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author eugus
+ * Tela para listagem e gerenciamento de categorias no sistema de controle de estoque.
+ * Permite visualizar, cadastrar, editar e excluir categorias.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
  */
 public class FrmListadeCategoria extends javax.swing.JFrame {
 
+    /**
+     * Cliente RMI para comunicação com o servidor.
+     */
     private ClienteRMI clienteRMI;
+    
+    /**
+     * Referência à janela anterior para retorno.
+     */
     private javax.swing.JFrame janelaAnterior;
     
     /**
-     * Creates new form FrmListadeCategoria
+     * Construtor padrão que inicializa a tela e cria uma nova conexão RMI.
      */
     public FrmListadeCategoria() {
         initComponents();
@@ -39,6 +49,12 @@ public class FrmListadeCategoria extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Construtor que recebe cliente RMI e janela anterior.
+     * 
+     * @param cliente Cliente RMI para comunicação com o servidor
+     * @param anterior Janela anterior para retorno
+     */
     public FrmListadeCategoria(ClienteRMI cliente, javax.swing.JFrame anterior) {
         initComponents();
         this.clienteRMI = cliente;
@@ -53,6 +69,9 @@ public class FrmListadeCategoria extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Carrega a lista de categorias do servidor e exibe na tabela.
+     */
     public void carregarTabela() {
         try {
             EstoqueService service = clienteRMI.getService();
