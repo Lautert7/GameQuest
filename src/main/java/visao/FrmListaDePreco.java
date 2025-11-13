@@ -13,15 +13,21 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 /**
- *
- * @author eugus
+ * Tela para exibição da lista de preços dos produtos.
+ * Mostra produtos ordenados por nome com seus preços e permite edição.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
  */
 public class FrmListaDePreco extends javax.swing.JFrame {
 
+    /**
+     * Cliente RMI para comunicação com o servidor.
+     */
     private ClienteRMI clienteRMI;
     
     /**
-     * Creates new form FrmListaDePreco
+     * Construtor padrão que inicializa a tela e cria uma nova conexão RMI.
      */
     public FrmListaDePreco() {
         initComponents();
@@ -36,6 +42,11 @@ public class FrmListaDePreco extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Construtor que recebe cliente RMI.
+     * 
+     * @param cliente Cliente RMI para comunicação com o servidor
+     */
     public FrmListaDePreco(ClienteRMI cliente) {
         initComponents();
         this.clienteRMI = cliente;
@@ -49,6 +60,9 @@ public class FrmListaDePreco extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Carrega a lista de preços dos produtos ordenados por nome e exibe na tabela.
+     */
     public void carregarTabela() {
         try {
             EstoqueService service = clienteRMI.getService();

@@ -9,12 +9,23 @@ import javax.swing.table.DefaultTableModel;
 import java.rmi.RemoteException;
 import java.util.List;
 
-
+/**
+ * Tela para exibição do balanço físico e financeiro do estoque.
+ * Mostra produtos com quantidade, preço e valor total, além do valor total do estoque.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
+ */
 public class FrmBalancoFisico extends javax.swing.JFrame {
 
+    /**
+     * Cliente RMI para comunicação com o servidor.
+     */
     private ClienteRMI clienteRMI;
     
-    
+    /**
+     * Construtor padrão que inicializa a tela e cria uma nova conexão RMI.
+     */
     public FrmBalancoFisico() {
         initComponents();
         clienteRMI = new ClienteRMI();
@@ -28,6 +39,11 @@ public class FrmBalancoFisico extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Construtor que recebe cliente RMI.
+     * 
+     * @param cliente Cliente RMI para comunicação com o servidor
+     */
     public FrmBalancoFisico(ClienteRMI cliente) {
         initComponents();
         this.clienteRMI = cliente;
@@ -41,6 +57,10 @@ public class FrmBalancoFisico extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Carrega o balanço físico-financeiro do servidor e exibe na tabela.
+     * Calcula e mostra o valor total do estoque.
+     */
     private void carregarBalanco() {
         try {
             EstoqueService service = clienteRMI.getService();

@@ -6,20 +6,41 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import modelo.Produto;
 
+/**
+ * Tela para exibição de produtos com quantidade abaixo do mínimo permitido.
+ * Ajuda a identificar produtos que precisam de reposição.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
+ */
 public class FrmProdutoAbaixoDoMin extends javax.swing.JFrame {
 
+    /**
+     * Serviço remoto de estoque para comunicação com o servidor RMI.
+     */
     private EstoqueService estoqueService;
     
+    /**
+     * Construtor padrão que inicializa apenas os componentes da interface.
+     */
     public FrmProdutoAbaixoDoMin() {
         initComponents();
     }
     
+    /**
+     * Construtor que recebe o serviço de estoque e carrega os dados.
+     * 
+     * @param estoqueService Serviço remoto de estoque
+     */
     public FrmProdutoAbaixoDoMin(EstoqueService estoqueService) {
         this.estoqueService = estoqueService;
         initComponents();
         carregarProdutosAbaixoDoMin();
     }
     
+    /**
+     * Carrega a lista de produtos abaixo do mínimo e exibe na tabela.
+     */
     private void carregarProdutosAbaixoDoMin() {
         if (estoqueService == null) {
             JOptionPane.showMessageDialog(this, "Servidor não conectado!");

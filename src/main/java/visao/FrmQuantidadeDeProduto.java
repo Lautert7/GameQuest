@@ -6,21 +6,46 @@ import java.util.List;
 import modelo.Produto;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Tela para exibição da quantidade de produtos em estoque.
+ * Mostra todos os produtos com suas respectivas quantidades.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
+ */
 public class FrmQuantidadeDeProduto extends javax.swing.JFrame {
 
+    /**
+     * Serviço remoto de estoque para comunicação com o servidor RMI.
+     */
     private EstoqueService estoqueService;
+    
+    /**
+     * Lista de produtos carregados do servidor.
+     */
     private List<Produto> produtosLista;
     
+    /**
+     * Construtor padrão que inicializa apenas os componentes da interface.
+     */
     public FrmQuantidadeDeProduto() {
         initComponents();
     }
     
+    /**
+     * Construtor que recebe o serviço de estoque e carrega os dados.
+     * 
+     * @param estoqueService Serviço remoto de estoque
+     */
     public FrmQuantidadeDeProduto(EstoqueService estoqueService) {
         this.estoqueService = estoqueService;
         initComponents();
         carregarProdutos();
     }
     
+    /**
+     * Carrega a lista de produtos do servidor e exibe na tabela.
+     */
     private void carregarProdutos() {
         if (estoqueService == null) {
             JOptionPane.showMessageDialog(this, "Servidor não conectado!");

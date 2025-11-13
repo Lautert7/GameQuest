@@ -7,16 +7,44 @@ import java.util.List;
 import modelo.Produto;
 import modelo.Categoria;
 
+/**
+ * Tela principal de relatórios do sistema de controle de estoque.
+ * Fornece acesso a diferentes tipos de relatórios: lista de preços,
+ * balanço físico-financeiro, produtos abaixo do mínimo e quantidade por categoria.
+ * 
+ * @author Sistema de Controle de Estoque
+ * @version 1.0
+ */
 public class FrmRelatorio extends javax.swing.JFrame {
 
+    /**
+     * Serviço remoto de estoque para comunicação com o servidor RMI.
+     */
     private EstoqueService estoqueService;
+    
+    /**
+     * Cliente RMI para gerenciar a conexão com o servidor.
+     */
     private ClienteRMI clienteRMI;
+    
+    /**
+     * Referência à janela anterior para retorno.
+     */
     private javax.swing.JFrame janelaAnterior;
     
+    /**
+     * Construtor padrão que inicializa apenas os componentes da interface.
+     */
     public FrmRelatorio() {
         initComponents();
     }
     
+    /**
+     * Construtor que recebe cliente RMI e janela anterior.
+     * 
+     * @param cliente Cliente RMI para comunicação com o servidor
+     * @param anterior Janela anterior para retorno
+     */
     public FrmRelatorio(ClienteRMI cliente, javax.swing.JFrame anterior) {
         initComponents();
         this.clienteRMI = cliente;
@@ -29,12 +57,20 @@ public class FrmRelatorio extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Construtor que recebe o serviço de estoque diretamente.
+     * 
+     * @param estoqueService Serviço remoto de estoque
+     */
     public FrmRelatorio(EstoqueService estoqueService) {
         this.estoqueService = estoqueService;
         initComponents();
         carregarRelatorio();
     }
     
+    /**
+     * Carrega dados iniciais do relatório.
+     */
     private void carregarRelatorio() {
         if (estoqueService == null) {
             JOptionPane.showMessageDialog(this, "Servidor não conectado!");
@@ -143,6 +179,12 @@ public class FrmRelatorio extends javax.swing.JFrame {
         pack();
     }
 
+    /**
+     * Trata o evento de clique no botão Lista de Preços.
+     * Abre a tela de lista de preços dos produtos.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBListadePrecoActionPerformed(java.awt.event.ActionEvent evt) {
         if (estoqueService != null) {
             try {
@@ -161,6 +203,12 @@ public class FrmRelatorio extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Trata o evento de clique no botão Balanço Físico-Financeiro.
+     * Abre a tela de balanço físico e financeiro do estoque.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBBalançoActionPerformed(java.awt.event.ActionEvent evt) {
         if (estoqueService != null) {
             try {
@@ -179,6 +227,12 @@ public class FrmRelatorio extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Trata o evento de clique no botão Produtos Abaixo do Mínimo.
+     * Exibe uma mensagem com a lista de produtos que estão com estoque abaixo do mínimo.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBProdutosAbaixoActionPerformed(java.awt.event.ActionEvent evt) {
         if (estoqueService != null) {
             try {
@@ -201,6 +255,12 @@ public class FrmRelatorio extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Trata o evento de clique no botão Quantidade de Produtos por Categoria.
+     * Exibe uma mensagem com a quantidade de produtos agrupados por categoria.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBQuantidadeProdutoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {
         if (estoqueService != null) {
             try {
@@ -225,6 +285,12 @@ public class FrmRelatorio extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Trata o evento de clique no botão Fechar.
+     * Retorna para a janela anterior e fecha a tela de relatórios.
+     * 
+     * @param evt Evento de ação do botão
+     */
     private void JBFecharActionPerformed(java.awt.event.ActionEvent evt) {
         if (janelaAnterior != null) {
             janelaAnterior.setVisible(true);
