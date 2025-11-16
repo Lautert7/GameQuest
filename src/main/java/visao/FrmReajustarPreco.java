@@ -1,4 +1,3 @@
-
 package visao;
 
 import cliente.ClienteRMI;
@@ -8,31 +7,64 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 
-
+/**
+ * Classe que representa a tela de reajuste de preços de produtos. Permite
+ * aumentar ou reduzir preços de produtos por percentual, selecionando o produto
+ * de uma lista e aplicando o reajuste.
+ *
+ * @author Sistema Distribuído
+ * @version 1.0
+ */
 public class FrmReajustarPreco extends javax.swing.JFrame {
-    
-   private ClienteRMI clienteRMI;
+
+    /**
+     * Cliente RMI utilizado para comunicação com o servidor.
+     */
+    private ClienteRMI clienteRMI;
+
+    /**
+     * Serviço de estoque utilizado para operações com produtos.
+     */
     private EstoqueService estoqueService;
+
+    /**
+     * Produto selecionado para reajuste de preço.
+     */
     private Produto produto;
+
+    /**
+     * Referência para a tela de lista de preços anterior.
+     */
     private FrmListadePreco telaAnterior;
+
+    /**
+     * Lista de todos os produtos carregados do servidor.
+     */
     private List<Produto> produtos;
 
-    
+    /**
+     * Construtor padrão. Inicializa componentes e configura a tela para
+     * reajuste de preço sem produto pré-selecionado.
+     */
     public FrmReajustarPreco() {
         initComponents();
-         this.clienteRMI = clienteRMI;
+        this.clienteRMI = clienteRMI;
         this.produto = produto;
         this.telaAnterior = telaAnterior;
-        
+
         conectarServidorRMI();
         carregarProdutosNoCombo();
         selectProdutoNoCombo(produto);
         atualizarPrecoAtual();
-        
+
     }
-    
-    
-    
+
+    /**
+     * Construtor com cliente RMI pré-configurado. Inicializa a tela, conecta ao
+     * servidor e carrega produtos no combo.
+     *
+     * @param clienteRMI Cliente RMI para comunicação com o servidor
+     */
     public FrmReajustarPreco(ClienteRMI clienteRMI) {
         initComponents();
         this.clienteRMI = clienteRMI;
@@ -40,7 +72,15 @@ public class FrmReajustarPreco extends javax.swing.JFrame {
         carregarProdutosNoCombo();
     }
 
-
+    /**
+     * Construtor completo com produto específico para reajuste. Inicializa a
+     * tela com o produto selecionado e mantém referência da tela anterior para
+     * atualização após reajuste.
+     *
+     * @param clienteRMI Cliente RMI para comunicação com o servidor
+     * @param produto Produto a ser reajustado
+     * @param telaAnterior Tela de lista de preços para atualizar após reajuste
+     */
     public FrmReajustarPreco(ClienteRMI clienteRMI, Produto produto, FrmListadePreco telaAnterior) {
         initComponents();
         this.clienteRMI = clienteRMI;
@@ -48,15 +88,19 @@ public class FrmReajustarPreco extends javax.swing.JFrame {
         this.telaAnterior = telaAnterior;
 
         conectarServidorRMI();
-        carregarProdutosNoCombo(); 
+        carregarProdutosNoCombo();
         if (this.produto != null) {
-            
+
             selectProdutoNoCombo(produto);
             atualizarPrecoAtual();
         }
     }
-    
-     private void conectarServidorRMI() {
+
+    /**
+     * Conecta ao servidor RMI e inicializa o serviço de estoque. Em caso de
+     * erro, exibe mensagem ao usuário.
+     */
+    private void conectarServidorRMI() {
         try {
             if (this.clienteRMI == null) {
                 this.clienteRMI = new ClienteRMI();
@@ -72,23 +116,29 @@ public class FrmReajustarPreco extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao conectar ao servidor: " + e.getMessage());
         }
     }
-     
-     private void carregarProdutosNoCombo() {
-        try {
-            if (estoqueService == null) return;
 
-            produtos = estoqueService.listarProdutos(); 
+    /**
+     * Carrega todos os produtos do servidor e popula o combo box. Se houver um
+     * produto pré-selecionado, o seleciona no combo. Em caso de erro, exibe
+     * mensagem ao usuário.
+     */
+    private void carregarProdutosNoCombo() {
+        try {
+            if (estoqueService == null) {
+                return;
+            }
+
+            produtos = estoqueService.listarProdutos();
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
             for (Produto p : produtos) {
                 model.addElement(p.getNome());
             }
             JCBProduto.setModel(model);
 
-            
             if (this.produto != null) {
                 selectProdutoNoCombo(this.produto);
             } else if (!produtos.isEmpty()) {
-                
+
                 JCBProduto.setSelectedIndex(0);
                 atualizarPrecoAtual();
             }
@@ -97,9 +147,17 @@ public class FrmReajustarPreco extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao carregar produtos: " + e.getMessage());
         }
     }
-     
-     private void selectProdutoNoCombo(Produto p) {
-        if (p == null || produtos == null) return;
+
+    /**
+     * Seleciona um produto específico no combo box baseado no ID. Percorre a
+     * lista de produtos e seleciona o índice correspondente.
+     *
+     * @param p Produto a ser selecionado no combo box
+     */
+    private void selectProdutoNoCombo(Produto p) {
+        if (p == null || produtos == null) {
+            return;
+        }
         for (int i = 0; i < produtos.size(); i++) {
             if (produtos.get(i).getId() == p.getId()) {
                 JCBProduto.setSelectedIndex(i);
@@ -107,8 +165,12 @@ public class FrmReajustarPreco extends javax.swing.JFrame {
             }
         }
     }
-     
-      private void atualizarPrecoAtual() {
+
+    /**
+     * Atualiza o campo de preço atual baseado no produto selecionado no combo.
+     * Busca o produto na lista e exibe seu preço no campo correspondente.
+     */
+    private void atualizarPrecoAtual() {
         int idx = JCBProduto.getSelectedIndex();
         if (idx >= 0 && produtos != null && idx < produtos.size()) {
             produto = produtos.get(idx);
@@ -117,8 +179,16 @@ public class FrmReajustarPreco extends javax.swing.JFrame {
             JTFPrecoAtual.setText("");
         }
     }
-      
-      private void aplicarNovoPreco(double novoPreco, boolean fechar) {
+
+    /**
+     * Aplica o novo preço ao produto selecionado e atualiza no servidor. Após
+     * aplicar, atualiza a tela anterior se existir e opcionalmente fecha a
+     * tela.
+     *
+     * @param novoPreco Novo preço a ser aplicado ao produto
+     * @param fechar Se true, fecha a tela após aplicar o preço
+     */
+    private void aplicarNovoPreco(double novoPreco, boolean fechar) {
         try {
             if (produto == null) {
                 JOptionPane.showMessageDialog(this, "Nenhum produto selecionado.");
@@ -138,20 +208,18 @@ public class FrmReajustarPreco extends javax.swing.JFrame {
                 try {
                     telaAnterior.carregarListaDePrecos();
                 } catch (Exception ex) {
-                    
+
                 }
             }
 
-            if (fechar) dispose();
+            if (fechar) {
+                dispose();
+            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar preço: " + e.getMessage());
         }
     }
-      
-      
-      
-
     
     
     @SuppressWarnings("unchecked")
@@ -276,7 +344,12 @@ public class FrmReajustarPreco extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+     * Método acionado ao clicar no botão Aumentar. Aplica um aumento percentual
+     * ao preço atual do produto selecionado.
+     *
+     * @param evt Evento de ação do botão
+     */
     private void JBAumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBAumentarActionPerformed
           try {
             double percentual = Double.parseDouble(JTFPercentual.getText());
@@ -287,7 +360,13 @@ public class FrmReajustarPreco extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Percentual inválido.");
         }
     }//GEN-LAST:event_JBAumentarActionPerformed
-
+    /**
+     * Método acionado ao clicar no botão Reduzir. Aplica uma redução percentual
+     * ao preço atual do produto selecionado. Valida se o preço resultante não
+     * será negativo.
+     *
+     * @param evt Evento de ação do botão
+     */
     private void JBReduzirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBReduzirActionPerformed
          try {
             double percentual = Double.parseDouble(JTFPercentual.getText());
@@ -302,20 +381,32 @@ public class FrmReajustarPreco extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Percentual inválido.");
         }
     }//GEN-LAST:event_JBReduzirActionPerformed
-
+    /**
+     * Método acionado ao clicar no botão Voltar. Retorna para a tela anterior
+     * (se existir) e fecha esta janela.
+     *
+     * @param evt Evento de ação do botão
+     */
     private void JBVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBVoltarActionPerformed
         if (telaAnterior != null) {
             telaAnterior.setVisible(true);
         }
         dispose();
     }//GEN-LAST:event_JBVoltarActionPerformed
-
+    /**
+     * Método acionado ao selecionar um produto no combo box. Atualiza o campo
+     * de preço atual com o preço do produto selecionado.
+     *
+     * @param evt Evento de ação do combo box
+     */
     private void JCBProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCBProdutoActionPerformed
         atualizarPrecoAtual();
     }//GEN-LAST:event_JCBProdutoActionPerformed
-
     /**
-     * @param args the command line arguments
+     * Método principal que inicia a aplicação. Configura o look and feel e
+     * exibe a janela de reajuste de preços.
+     *
+     * @param args Argumentos da linha de comando (não utilizados)
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

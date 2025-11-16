@@ -5,18 +5,32 @@ import cliente.ClienteRMI;
 import service.EstoqueService;
 import javax.swing.JOptionPane;
  
+/**
+ * Classe que representa a tela principal do sistema de controle de estoque.
+ * Oferece acesso aos principais módulos: Produtos, Categorias,
+ * Movimentação de Estoque e Relatórios.
+ * 
+ * @author Sistema Distribuído
+ * @version 1.0
+ */
 public class FrmTelaPrincipal extends javax.swing.JFrame {
     
+    /** Cliente RMI utilizado para comunicação com o servidor. */
     private ClienteRMI clienteRMI;
+    /** Serviço de estoque utilizado para operações. */
     private EstoqueService estoqueService;
 
 
-    
+    /** Construtor padrão. Inicializa componentes e conecta ao servidor RMI. */
     public FrmTelaPrincipal() {
         initComponents();
         conectarServidorRMI();
     }
     
+    /**
+     * Construtor com cliente RMI pré-configurado.
+     * @param clienteRMI Cliente RMI para comunicação com o servidor
+     */
     public FrmTelaPrincipal(ClienteRMI clienteRMI) {
         initComponents();   
         this.clienteRMI = clienteRMI;
@@ -24,6 +38,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
 
     }
     
+    /** Conecta ao servidor RMI e inicializa o serviço de estoque. */
     private void conectarServidorRMI() {
         try {
             if (this.clienteRMI == null) {
@@ -150,34 +165,52 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Abre a tela de Relatórios.
+     * @param evt Evento de ação
+     */
     private void JBRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBRelatoriosActionPerformed
         FrmRelatorio tela = new FrmRelatorio(this.clienteRMI);
         tela.setVisible(true);
     }//GEN-LAST:event_JBRelatoriosActionPerformed
 
+    /**
+     * Fecha a aplicação.
+     * @param evt Evento de ação
+     */
     private void JBSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBSairActionPerformed
         this.dispose();
     }//GEN-LAST:event_JBSairActionPerformed
 
+    /**
+     * Abre a tela de Lista de Produtos.
+     * @param evt Evento de ação
+     */
     private void JBProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBProdutosActionPerformed
         FrmListadeProduto tela = new FrmListadeProduto(this.clienteRMI);
         tela.setVisible(true);
 
     }//GEN-LAST:event_JBProdutosActionPerformed
 
+    /**
+     * Abre a tela de Lista de Categorias.
+     * @param evt Evento de ação
+     */
     private void JBCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBCategoriasActionPerformed
         FrmListadeCategoria tela = new FrmListadeCategoria(this.clienteRMI);
         tela.setVisible(true);
     }//GEN-LAST:event_JBCategoriasActionPerformed
 
+    /**
+     * Abre a tela de Movimentação de Estoque.
+     * @param evt Evento de ação
+     */
     private void JBMovimentaçãoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBMovimentaçãoActionPerformed
         FrmMovimentacaoDeEstoque tela = new FrmMovimentacaoDeEstoque(this.clienteRMI);
         tela.setVisible(true);
     }//GEN-LAST:event_JBMovimentaçãoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    /** @param args Argumentos da linha de comando */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

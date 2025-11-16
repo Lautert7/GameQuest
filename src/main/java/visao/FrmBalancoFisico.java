@@ -8,20 +8,48 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
+/**
+ * Classe que representa a tela de Balanço Físico e Financeiro do estoque.
+ * Permite visualizar todos os produtos com suas quantidades e valores totais,
+ * além de filtrar produtos por nome e calcular o valor total do estoque.
+ * 
+ * @author Sistema Distribuído
+ * @version 1.0
+ */
 public class FrmBalancoFisico extends javax.swing.JFrame {
     
+    /**
+     * Cliente RMI utilizado para comunicação com o servidor.
+     */
     private ClienteRMI clienteRMI;
+    
+    /**
+     * Serviço de estoque utilizado para operações relacionadas aos produtos.
+     */
     private EstoqueService estoqueService;
+    
+    /**
+     * Lista de produtos carregada do servidor.
+     */
     private List<Produto> produtos;
 
-   
+    /**
+     * Construtor padrão da classe FrmBalancoFisico.
+     * Inicializa os componentes da interface, conecta ao servidor RMI
+     * e carrega o balanço físico e financeiro.
+     */
     public FrmBalancoFisico() {
         initComponents();
         conectarServidorRMI();
         carregarBalanco();
     }
     
+    /**
+     * Construtor alternativo da classe FrmBalancoFisico.
+     * Permite inicializar a tela com um cliente RMI já existente.
+     * 
+     * @param clienteRMI Cliente RMI pré-configurado para comunicação com o servidor
+     */
      public FrmBalancoFisico(ClienteRMI clienteRMI) {
         initComponents();
         this.clienteRMI = clienteRMI;
@@ -29,6 +57,11 @@ public class FrmBalancoFisico extends javax.swing.JFrame {
         carregarBalanco();
     }
      
+    /**
+     * Conecta ao servidor RMI e inicializa o serviço de estoque.
+     * Se o clienteRMI for null, cria uma nova instância.
+     * Em caso de falha na conexão ou erro, exibe mensagem de erro ao usuário.
+     */
       private void conectarServidorRMI() {
         try {
             if (clienteRMI == null)
@@ -166,6 +199,14 @@ public class FrmBalancoFisico extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Carrega o balanço físico e financeiro do estoque.
+     * Busca todos os produtos e exibe na tabela com as informações:
+     * ID, Nome, Categoria, Preço, Quantidade e Subtotal.
+     * Calcula e exibe o valor total do estoque.
+     * Em caso de erro, exibe uma mensagem ao usuário.
+     */
 private void carregarBalanco() {
         try {
             produtos = estoqueService.listarProdutos();
@@ -201,6 +242,12 @@ private void carregarBalanco() {
         }
     }
 
+    /**
+     * Filtra o balanço por nome de produto.
+     * Busca produtos cujo nome contenha o texto digitado no campo de busca
+     * e atualiza a tabela e o valor total com os produtos filtrados.
+     * Em caso de erro, exibe uma mensagem ao usuário.
+     */
 private void filtrarBalanco() {
         try {
             String busca = JTFBuscar.getText().trim().toLowerCase();
@@ -239,20 +286,41 @@ private void filtrarBalanco() {
         }
     }
 
+    /**
+     * Manipula o evento de digitação no campo de busca.
+     * Método vazio, mantido para compatibilidade com o NetBeans Form Editor.
+     * 
+     * @param evt Evento de ação do campo de busca
+     */
     private void JTFBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTFBuscarActionPerformed
 
     }//GEN-LAST:event_JTFBuscarActionPerformed
 
+    /**
+     * Manipula o evento de clique no botão Filtrar.
+     * Executa a filtragem do balanço baseado no texto digitado.
+     * 
+     * @param evt Evento de ação do botão Filtrar
+     */
     private void JBFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBFiltrarActionPerformed
         filtrarBalanco();
     }//GEN-LAST:event_JBFiltrarActionPerformed
 
+    /**
+     * Manipula o evento de clique no botão Fechar.
+     * Fecha a tela e libera os recursos da janela.
+     * 
+     * @param evt Evento de ação do botão Fechar
+     */
     private void JBFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBFecharActionPerformed
         dispose();
     }//GEN-LAST:event_JBFecharActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Método principal para execução da aplicação.
+     * Configura o Look and Feel Nimbus e inicia a interface gráfica.
+     * 
+     * @param args Argumentos da linha de comando (não utilizados)
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

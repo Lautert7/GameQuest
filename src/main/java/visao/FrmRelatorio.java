@@ -5,22 +5,39 @@ package visao;
 import service.EstoqueService;
 import javax.swing.JOptionPane;
 
+/**
+ * Classe que representa a tela principal de relatórios.
+ * Permite acesso aos diversos relatórios disponíveis no sistema:
+ * Lista de Preços, Balanço Físico-Financeiro, Produtos Abaixo do Mínimo
+ * e Quantidade de Produtos por Categoria.
+ * 
+ * @author Sistema Distribuído
+ * @version 1.0
+ */
 public class FrmRelatorio extends javax.swing.JFrame {
     
+    /** Cliente RMI utilizado para comunicação com o servidor. */
     private ClienteRMI clienteRMI;
+    /** Serviço de estoque utilizado para operações. */
     private EstoqueService estoqueService;
    
+    /** Construtor padrão. Inicializa componentes e conecta ao servidor RMI. */
     public FrmRelatorio() {
         initComponents();
         conectarServidorRMI();
     }
     
+    /**
+     * Construtor com cliente RMI pré-configurado.
+     * @param clienteRMI Cliente RMI para comunicação com o servidor
+     */
     public FrmRelatorio(ClienteRMI clienteRMI) {
         initComponents();
         this.clienteRMI = clienteRMI;
         conectarServidorRMI();
     }
 
+    /** Conecta ao servidor RMI e inicializa o serviço de estoque. */
      private void conectarServidorRMI() {
         try {
             if (clienteRMI == null)
@@ -139,6 +156,10 @@ public class FrmRelatorio extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Manipula ação do botão Fechar. Desconecta do servidor e fecha a tela.
+     * @param evt Evento de ação
+     */
     private void JBFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBFecharActionPerformed
         try {
             if (this.clienteRMI != null) {
@@ -151,29 +172,43 @@ public class FrmRelatorio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_JBFecharActionPerformed
 
+    /**
+     * Abre a tela de Lista de Preços.
+     * @param evt Evento de ação
+     */
     private void JBListadePrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBListadePrecoActionPerformed
         FrmListadePreco tela = new FrmListadePreco(clienteRMI);
         tela.setVisible(true);
     }//GEN-LAST:event_JBListadePrecoActionPerformed
 
+    /**
+     * Abre a tela de Balanço Físico-Financeiro.
+     * @param evt Evento de ação
+     */
     private void JBBalancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBBalancoActionPerformed
         FrmBalancoFisico tela = new FrmBalancoFisico(clienteRMI);
         tela.setVisible(true);
     }//GEN-LAST:event_JBBalancoActionPerformed
 
+    /**
+     * Abre a tela de Produtos Abaixo do Mínimo/Máximo.
+     * @param evt Evento de ação
+     */
     private void JBProdutosAbaixoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBProdutosAbaixoActionPerformed
          FrmProdutoAbaixoDoMin tela = new FrmProdutoAbaixoDoMin(clienteRMI);
         tela.setVisible(true);
     }//GEN-LAST:event_JBProdutosAbaixoActionPerformed
 
+    /**
+     * Abre a tela de Quantidade de Produtos por Categoria.
+     * @param evt Evento de ação
+     */
     private void JBQuantidadeProdutoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBQuantidadeProdutoCategoriaActionPerformed
         FrmQuantidadeDeProduto tela = new FrmQuantidadeDeProduto(clienteRMI);
         tela.setVisible(true);
     }//GEN-LAST:event_JBQuantidadeProdutoCategoriaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    /** @param args Argumentos da linha de comando */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

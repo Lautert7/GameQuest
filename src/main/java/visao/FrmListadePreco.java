@@ -8,22 +8,48 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Produto;
 
-
+/**
+ * Classe que representa a tela de listagem de preços dos produtos.
+ * Permite visualizar todos os produtos cadastrados com seus respectivos preços
+ * e possibilita a edição dos preços através do botão Editar.
+ * 
+ * @author Sistema Distribuído
+ * @version 1.0
+ */
 public class FrmListadePreco extends javax.swing.JFrame {
     
+    /**
+     * Cliente RMI utilizado para comunicação com o servidor.
+     */
     private ClienteRMI clienteRMI;
+    
+    /**
+     * Serviço de estoque utilizado para operações relacionadas aos produtos.
+     */
     private EstoqueService estoqueService;
+    
+    /**
+     * Lista de produtos carregada do servidor.
+     */
     private List<Produto> listaProdutos;
 
-    
+    /**
+     * Construtor padrão da classe FrmListadePreco.
+     * Inicializa os componentes da interface, conecta ao servidor RMI
+     * e carrega a lista de preços dos produtos.
+     */
     public FrmListadePreco() {
         initComponents();
         conectarServidorRMI();
         carregarListaDePrecos();
     }
     
-    
-    
+    /**
+     * Carrega a lista de preços dos produtos do servidor e exibe na tabela.
+     * Busca todos os produtos através do serviço de estoque e popula
+     * a tabela com as informações: ID, Nome, Categoria e Preço.
+     * Em caso de erro, exibe uma mensagem de erro ao usuário.
+     */
     public void carregarListaDePrecos() {
     try {
         listaProdutos = estoqueService.listarProdutos();
@@ -48,6 +74,12 @@ public class FrmListadePreco extends javax.swing.JFrame {
     }
 }
     
+    /**
+     * Construtor alternativo da classe FrmListadePreco.
+     * Permite inicializar a tela com um cliente RMI já existente.
+     * 
+     * @param clienteRMI Cliente RMI pré-configurado para comunicação com o servidor
+     */
     public FrmListadePreco(ClienteRMI clienteRMI) {
         initComponents();
         this.clienteRMI = clienteRMI;
@@ -55,6 +87,11 @@ public class FrmListadePreco extends javax.swing.JFrame {
         carregarListaDePrecos();
     }
     
+    /**
+     * Conecta ao servidor RMI e inicializa o serviço de estoque.
+     * Se o clienteRMI for null, cria uma nova instância.
+     * Em caso de falha na conexão ou erro, exibe mensagem de erro ao usuário.
+     */
     private void conectarServidorRMI() {
         try {
             if (clienteRMI == null)
@@ -159,6 +196,14 @@ public class FrmListadePreco extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
  
+    /**
+     * Manipula o evento de clique no botão Editar.
+     * Verifica se uma linha foi selecionada na tabela, busca o produto
+     * correspondente pelo ID e abre a tela de reajuste de preço.
+     * Em caso de erro, exibe uma mensagem ao usuário.
+     * 
+     * @param evt Evento de ação do botão Editar
+     */
     private void JBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBEditarActionPerformed
         int linha = JTListaDePreco.getSelectedRow();
 
@@ -183,6 +228,12 @@ public class FrmListadePreco extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_JBEditarActionPerformed
 
+    /**
+     * Manipula o evento de clique no botão Fechar.
+     * Fecha a tela atual, abre a tela de Relatório e libera os recursos da janela.
+     * 
+     * @param evt Evento de ação do botão Fechar
+     */
     private void JBFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBFecharActionPerformed
         FrmRelatorio relatorio = new FrmRelatorio();
         relatorio.setVisible(true);
@@ -190,7 +241,10 @@ public class FrmListadePreco extends javax.swing.JFrame {
     }//GEN-LAST:event_JBFecharActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Método principal para execução da aplicação.
+     * Configura o Look and Feel Nimbus e inicia a interface gráfica.
+     * 
+     * @param args Argumentos da linha de comando (não utilizados)
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

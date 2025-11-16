@@ -7,14 +7,21 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
-
+/**
+ * Classe que representa a tela de quantidade de produtos por categoria.
+ * Exibe um resumo da quantidade total de produtos agrupados por categoria.
+ * 
+ * @author Sistema Distribuído
+ * @version 1.0
+ */
 public class FrmQuantidadeDeProduto extends javax.swing.JFrame {
     
+    /** Cliente RMI utilizado para comunicação com o servidor. */
     private ClienteRMI clienteRMI;
+    /** Serviço de estoque utilizado para operações com produtos. */
     private EstoqueService estoqueService;
 
-    
+    /** Construtor padrão. Inicializa componentes e carrega quantidade por categoria. */
     public FrmQuantidadeDeProduto() {
         initComponents();
         conectarServidorRMI();
@@ -22,6 +29,10 @@ public class FrmQuantidadeDeProduto extends javax.swing.JFrame {
 
     }
     
+    /**
+     * Construtor com cliente RMI pré-configurado.
+     * @param clienteRMI Cliente RMI para comunicação com o servidor
+     */
     public FrmQuantidadeDeProduto(ClienteRMI clienteRMI) {
         initComponents();
         this.clienteRMI = clienteRMI;
@@ -29,6 +40,7 @@ public class FrmQuantidadeDeProduto extends javax.swing.JFrame {
         carregarQuantidadePorCategoria();
     }
     
+    /** Conecta ao servidor RMI e inicializa o serviço de estoque. */
      private void conectarServidorRMI() {
         try {
             if (clienteRMI == null)
@@ -47,6 +59,7 @@ public class FrmQuantidadeDeProduto extends javax.swing.JFrame {
         }
     }
      
+    /** Carrega a quantidade total de produtos agrupados por categoria. */
      private void carregarQuantidadePorCategoria() {
     try {
         List<String[]> dados = estoqueService.listarQuantidadePorCategoria();
@@ -160,17 +173,17 @@ public class FrmQuantidadeDeProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
+    /** @param evt Evento de ação do botão Atualizar */
     private void JBAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBAtualizarActionPerformed
         carregarQuantidadePorCategoria();
     }//GEN-LAST:event_JBAtualizarActionPerformed
 
+    /** @param evt Evento de ação do botão Fechar */
     private void JBFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBFecharActionPerformed
         dispose();
     }//GEN-LAST:event_JBFecharActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    /** @param args Argumentos da linha de comando */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -216,4 +229,3 @@ public class FrmQuantidadeDeProduto extends javax.swing.JFrame {
 
 
 }
-

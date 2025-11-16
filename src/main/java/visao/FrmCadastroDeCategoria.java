@@ -6,26 +6,58 @@ import service.EstoqueService;
 import javax.swing.JOptionPane;
 import modelo.Categoria;
 
-
+/**
+ * Classe que representa a tela de Cadastro e Edição de Categoria.
+ * Permite criar novas categorias e editar categorias existentes,
+ * definindo nome, tamanho e embalagem.
+ * 
+ * @author Sistema Distribuído
+ * @version 1.0
+ */
 public class FrmCadastroDeCategoria extends javax.swing.JFrame {
+    /**
+     * Cliente RMI utilizado para comunicação com o servidor.
+     */
     private ClienteRMI clienteRMI;
+    
+    /**
+     * Serviço de estoque utilizado para operações relacionadas às categorias.
+     */
     private EstoqueService estoqueService;
     
+    /**
+     * Categoria em modo de edição. Null quando está criando uma nova categoria.
+     */
     private Categoria categoriaEdicao = null;
     
+    /**
+     * Construtor padrão da classe FrmCadastroDeCategoria.
+     * Inicializa os componentes da interface e conecta ao servidor RMI.
+     */
     public FrmCadastroDeCategoria() {
         initComponents();
         conectarServidorRMI();
     }
     
-    
-    
+    /**
+     * Construtor alternativo da classe FrmCadastroDeCategoria.
+     * Permite inicializar a tela com um cliente RMI já existente.
+     * 
+     * @param clienteRMI Cliente RMI pré-configurado para comunicação com o servidor
+     */
     public FrmCadastroDeCategoria(ClienteRMI clienteRMI) {
     initComponents();
     this.clienteRMI = clienteRMI;
     conectarServidorRMI();
 }
     
+    /**
+     * Construtor para modo de edição de categoria.
+     * Permite inicializar a tela com uma categoria existente para edição.
+     * 
+     * @param clienteRMI Cliente RMI pré-configurado para comunicação com o servidor
+     * @param categoria Categoria a ser editada
+     */
      public FrmCadastroDeCategoria(ClienteRMI clienteRMI, Categoria categoria) {
         initComponents();
         this.clienteRMI = clienteRMI;
@@ -34,6 +66,11 @@ public class FrmCadastroDeCategoria extends javax.swing.JFrame {
         carregarDadosEdicao();
     }
      
+    /**
+     * Conecta ao servidor RMI e inicializa o serviço de estoque.
+     * Se o clienteRMI for null, cria uma nova instância.
+     * Em caso de falha na conexão ou erro, exibe mensagem de erro ao usuário.
+     */
      private void conectarServidorRMI() {
         try {
             if (clienteRMI == null)
@@ -52,6 +89,10 @@ public class FrmCadastroDeCategoria extends javax.swing.JFrame {
         }
     }
      
+    /**
+     * Carrega os dados da categoria em modo de edição nos campos do formulário.
+     * Preenche os campos com nome, tamanho e embalagem da categoria.
+     */
      private void carregarDadosEdicao() {
         if (categoriaEdicao != null) {
             JTFNomeCategoria.setText(categoriaEdicao.getNomeCategoria());
@@ -191,6 +232,13 @@ public class FrmCadastroDeCategoria extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Manipula o evento de clique no botão Salvar.
+     * Valida os campos e salva a categoria (criação ou atualização)
+     * no servidor através do serviço de estoque.
+     * 
+     * @param evt Evento de ação do botão Salvar
+     */
     private void JBSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBSalvarActionPerformed
 
         String nome = JTFNomeCategoria.getText().trim();
@@ -232,6 +280,12 @@ public class FrmCadastroDeCategoria extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_JBSalvarActionPerformed
 
+    /**
+     * Manipula o evento de clique no botão Limpar.
+     * Limpa todos os campos do formulário e reseta o modo de edição.
+     * 
+     * @param evt Evento de ação do botão Limpar
+     */
     private void JBLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBLimparActionPerformed
          JTFNomeCategoria.setText("");
         JCBTamanho.setSelectedIndex(0);
@@ -239,20 +293,41 @@ public class FrmCadastroDeCategoria extends javax.swing.JFrame {
         categoriaEdicao = null;
     }//GEN-LAST:event_JBLimparActionPerformed
 
+    /**
+     * Manipula o evento de clique no botão Cancelar.
+     * Fecha a tela sem salvar alterações.
+     * 
+     * @param evt Evento de ação do botão Cancelar
+     */
     private void JBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_JBCancelarActionPerformed
 
+    /**
+     * Manipula o evento do campo de texto Nome da Categoria.
+     * Método vazio, mantido para compatibilidade com o NetBeans Form Editor.
+     * 
+     * @param evt Evento de ação do campo de texto
+     */
     private void JTFNomeCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTFNomeCategoriaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JTFNomeCategoriaActionPerformed
 
+    /**
+     * Manipula o evento do combo box Tamanho.
+     * Método vazio, mantido para compatibilidade com o NetBeans Form Editor.
+     * 
+     * @param evt Evento de ação do combo box
+     */
     private void JCBTamanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCBTamanhoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JCBTamanhoActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Método principal para execução da aplicação.
+     * Configura o Look and Feel Nimbus e inicia a interface gráfica.
+     * 
+     * @param args Argumentos da linha de comando (não utilizados)
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

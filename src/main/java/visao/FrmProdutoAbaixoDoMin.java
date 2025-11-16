@@ -8,13 +8,21 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
+/**
+ * Classe que representa a tela de produtos abaixo do mínimo/máximo.
+ * Exibe produtos que estão com quantidade abaixo do mínimo estabelecido.
+ * 
+ * @author Sistema Distribuído
+ * @version 1.0
+ */
 public class FrmProdutoAbaixoDoMin extends javax.swing.JFrame {
     
+    /** Cliente RMI utilizado para comunicação com o servidor. */
     private ClienteRMI clienteRMI;
+    /** Serviço de estoque utilizado para operações com produtos. */
     private EstoqueService estoqueService;
 
-    
+    /** Construtor padrão. Inicializa componentes e carrega produtos abaixo do mínimo. */
     public FrmProdutoAbaixoDoMin() {
         initComponents();
         conectarServidorRMI();
@@ -22,6 +30,10 @@ public class FrmProdutoAbaixoDoMin extends javax.swing.JFrame {
 
     }
     
+    /**
+     * Construtor com cliente RMI pré-configurado.
+     * @param clienteRMI Cliente RMI para comunicação com o servidor
+     */
     public FrmProdutoAbaixoDoMin(ClienteRMI clienteRMI) {
         initComponents();
         this.clienteRMI = clienteRMI;
@@ -29,6 +41,7 @@ public class FrmProdutoAbaixoDoMin extends javax.swing.JFrame {
         carregarProdutosAbaixo();
     }
     
+    /** Conecta ao servidor RMI e inicializa o serviço de estoque. */
     private void conectarServidorRMI() {
         try {
             if (clienteRMI == null)
@@ -159,6 +172,8 @@ public class FrmProdutoAbaixoDoMin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    /** Carrega produtos que estão abaixo do mínimo estabelecido. */
  private void carregarProdutosAbaixo() {
         try {
             List<Produto> lista = estoqueService.listarProdutosAbaixoMinimo();
@@ -188,21 +203,22 @@ public class FrmProdutoAbaixoDoMin extends javax.swing.JFrame {
         }
     }
 
+    /** @param evt Evento de ação do botão Buscar */
     private void JBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBBuscarActionPerformed
          carregarProdutosAbaixo();
     }//GEN-LAST:event_JBBuscarActionPerformed
 
+    /** @param evt Evento de ação do botão Fechar */
     private void JBFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBFecharActionPerformed
         this.dispose();
     }//GEN-LAST:event_JBFecharActionPerformed
 
+    /** @param evt Evento de ação do combo filtro */
     private void JCBFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCBFiltroActionPerformed
         carregarProdutosAbaixo();
     }//GEN-LAST:event_JCBFiltroActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    /** @param args Argumentos da linha de comando */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -9,13 +9,25 @@ import javax.swing.table.DefaultTableModel;
 import modelo.RegistroMovimentacao;
 import modelo.Produto;
 
-
+/**
+ * Classe que representa a tela de Movimentação de Estoque.
+ * Permite registrar entradas e saídas de produtos, atualizar quantidades
+ * e visualizar histórico de movimentações recentes.
+ * 
+ * @author Sistema Distribuído
+ * @version 1.0
+ */
 public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
     
+    /** Cliente RMI utilizado para comunicação com o servidor. */
     private ClienteRMI clienteRMI;
+    /** Serviço de estoque utilizado para operações com produtos e movimentações. */
     private EstoqueService estoqueService;
 
-    
+    /**
+     * Construtor padrão. Inicializa componentes, conecta ao servidor,
+     * carrega produtos e movimentações, e seleciona Entrada como padrão.
+     */
     public FrmMovimentacaoDeEstoque() {
         initComponents();
         conectarServidorRMI();
@@ -24,6 +36,10 @@ public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
         JRBEntrada.setSelected(true);
     }
     
+    /**
+     * Construtor com cliente RMI pré-configurado.
+     * @param clienteRMI Cliente RMI para comunicação com o servidor
+     */
     public FrmMovimentacaoDeEstoque(ClienteRMI clienteRMI) {
         initComponents();
         conectarServidorRMI();
@@ -32,6 +48,7 @@ public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
         JRBEntrada.setSelected(true);
     }
     
+    /** Conecta ao servidor RMI e inicializa o serviço de estoque. */
    private void conectarServidorRMI() {
         try {
             if (this.clienteRMI == null)
@@ -228,6 +245,10 @@ public class FrmMovimentacaoDeEstoque extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Carrega a lista de produtos do servidor e popula o combo box.
+     */
 private void carregarProdutos() {
         try {
             List<Produto> lista = estoqueService.listarProdutos();
@@ -241,6 +262,10 @@ private void carregarProdutos() {
         }
     }
 
+    /**
+     * Carrega o histórico de movimentações do servidor e exibe na tabela.
+     * Mostra data, produto, tipo (Entrada/Saída), quantidade e saldo atual.
+     */
     private void carregarMovimentacoes() {
     try {
         DefaultTableModel model =
@@ -279,23 +304,44 @@ private void carregarProdutos() {
     }
 }
 
+    /**
+     * Limpa os campos do formulário e reseta para o estado inicial.
+     */
     private void limparCampos() {
         JTFQuantidade.setText("");
         JTFData.setText("");
         JRBEntrada.setSelected(true);
     }
+    
+    /**
+     * Manipula ação do botão Limpar. Limpa todos os campos.
+     * @param evt Evento de ação
+     */
     private void JBLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBLimparActionPerformed
         limparCampos();
     }//GEN-LAST:event_JBLimparActionPerformed
 
+    /**
+     * Manipula ação do botão Sair. Fecha a tela.
+     * @param evt Evento de ação
+     */
     private void JBSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBSairActionPerformed
         this.dispose();
     }//GEN-LAST:event_JBSairActionPerformed
 
+    /**
+     * Evento de ancestral adicionado ao painel de rolagem.
+     * @param evt Evento de ancestral
+     */
     private void jScrollPane1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jScrollPane1AncestorAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_jScrollPane1AncestorAdded
 
+    /**
+     * Manipula ação do botão Registrar. Valida dados, atualiza estoque
+     * e registra a movimentação (entrada ou saída) no servidor.
+     * @param evt Evento de ação
+     */
     private void JBRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBRegistrarActionPerformed
        try {
             String produtoNome = (String) JCBProduto.getSelectedItem();
@@ -366,7 +412,8 @@ mov.setObservacao("");
     }//GEN-LAST:event_JBRegistrarActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Método principal para execução da aplicação.
+     * @param args Argumentos da linha de comando
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

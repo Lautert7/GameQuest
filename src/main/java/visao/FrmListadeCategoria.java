@@ -8,20 +8,42 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Categoria;
 
-
+/**
+ * Classe que representa a tela de listagem de categorias.
+ * Permite visualizar, adicionar, editar e excluir categorias do sistema.
+ * 
+ * @author Sistema Distribuído
+ * @version 1.0
+ */
 public class FrmListadeCategoria extends javax.swing.JFrame {
+    /**
+     * Cliente RMI utilizado para comunicação com o servidor.
+     */
     private ClienteRMI clienteRMI;
+    
+    /**
+     * Serviço de estoque utilizado para operações relacionadas às categorias.
+     */
     private EstoqueService estoqueService;
 
+    /**
+     * Lista de categorias carregada do servidor.
+     */
     private List<Categoria> categorias;
 
-    
+    /**
+     * Construtor padrão da classe. Inicializa componentes, conecta ao servidor e carrega categorias.
+     */
     public FrmListadeCategoria() {
         initComponents();
         conectarServidorRMI();
         carregarCategorias();
     }
     
+    /**
+     * Construtor com cliente RMI pré-configurado.
+     * @param clienteRMI Cliente RMI para comunicação com o servidor
+     */
     public FrmListadeCategoria(ClienteRMI clienteRMI) {
     initComponents();
     this.clienteRMI = clienteRMI;
@@ -29,10 +51,17 @@ public class FrmListadeCategoria extends javax.swing.JFrame {
     carregarCategorias();
 }
     
+    /**
+     * Retorna o cliente RMI utilizado.
+     * @return Cliente RMI configurado
+     */
     public ClienteRMI getClienteRMI() {
         return this.clienteRMI;
     }
     
+    /**
+     * Conecta ao servidor RMI e inicializa o serviço de estoque.
+     */
     private void conectarServidorRMI() {
         try {
             if (clienteRMI == null)
@@ -158,6 +187,10 @@ public class FrmListadeCategoria extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Carrega a lista de categorias do servidor e exibe na tabela.
+     */
 private void carregarCategorias() {
     try {
         categorias = estoqueService.listarCategorias();
@@ -181,15 +214,28 @@ private void carregarCategorias() {
             "Erro ao carregar categorias: " + e.getMessage());
     }
 }
+
+    /**
+     * Manipula ação do botão Voltar. Fecha a tela.
+     * @param evt Evento de ação
+     */
     private void JBVoltarLCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBVoltarLCActionPerformed
         dispose();
     }//GEN-LAST:event_JBVoltarLCActionPerformed
 
+    /**
+     * Manipula ação do botão Adicionar. Abre tela de cadastro de nova categoria.
+     * @param evt Evento de ação
+     */
     private void JBAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBAdicionarActionPerformed
         FrmCadastroDeCategoria tela = new FrmCadastroDeCategoria(clienteRMI);
     tela.setVisible(true);
     }//GEN-LAST:event_JBAdicionarActionPerformed
 
+    /**
+     * Manipula ação do botão Editar. Abre tela de edição da categoria selecionada.
+     * @param evt Evento de ação
+     */
     private void JBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBEditarActionPerformed
         int linha = JTListaCategoria.getSelectedRow();
 
@@ -215,6 +261,10 @@ tela.setVisible(true);
         }
     }//GEN-LAST:event_JBEditarActionPerformed
 
+    /**
+     * Manipula ação do botão Excluir. Exclui a categoria selecionada após confirmação.
+     * @param evt Evento de ação
+     */
     private void JBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBExcluirActionPerformed
         int linha = JTListaCategoria.getSelectedRow();
 
@@ -247,7 +297,8 @@ tela.setVisible(true);
     }//GEN-LAST:event_JBExcluirActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Método principal para execução da aplicação.
+     * @param args Argumentos da linha de comando (não utilizados)
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
